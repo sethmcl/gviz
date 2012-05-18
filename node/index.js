@@ -3,7 +3,8 @@ var server = require('./server'),
     requestHandler = require('./requestHandler'),
     handle = {};
 
-handle['/'] = requestHandler.commit;
+handle['/'] = requestHandler.index;
 handle['/commit'] = requestHandler.commit;
+handle['/log'] = requestHandler.log;
 
 server.start(router.route, handle);
