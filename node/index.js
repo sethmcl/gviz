@@ -3,7 +3,7 @@ var server = require('./server'),
     requestHandler = require('./requestHandler'),
     handle = {};
 
-handle['/'] = requestHandler.index;
+handle['/'] = requestHandler.home;
 handle['/commit'] = requestHandler.commit;
 handle['/log'] = requestHandler.log;
 

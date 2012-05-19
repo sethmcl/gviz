@@ -1,8 +1,9 @@
 var exec = require('child_process').exec;
 
-exports.index = function (response) {
+exports.home = function (response) {
   response.writeHead(200, {"Content-Type": "text/html"});
   response.write('INDEX');
+  response.end();
 }
 exports.log = function (response) {
   exec('git log --pretty=format:"{hash: \'%H\', parentHash: \'%P\', author: \'%an\', date: \'%at\', branch: \'%d\'}"', {timeout: 5000}, function(error, stdout, stderr) {
