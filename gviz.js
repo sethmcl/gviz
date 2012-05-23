@@ -68,7 +68,7 @@ function Gviz( args ) {
     app.get('/log', function(request, response) {
       git.log(function(data) {
         var json = '{"commits": {' + data.replace(/\n/g, ',') + '}}';
-        response.render('log', JSON.parse(json));
+        response.json(JSON.parse(json));
       });
     });
 
