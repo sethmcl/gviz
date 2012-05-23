@@ -9,6 +9,7 @@ function Gviz( args ) {
       app       = express.createServer(),
       io        = require('socket.io'),
       _         = require('underscore'),
+      jade      = require('jade'),
       git       = new (require('./git'))( process.env.PWD ),
       homeFolder,
       port;
@@ -26,10 +27,10 @@ function Gviz( args ) {
     console.log('   info  -'.cyan, 'Application root'.yellow, homeFolder);
 
     // express config
-    app.set('view engine', 'ejs');
+    app.set('view engine', 'jade');
     app.set('views', homeFolder + '/views');
     app.set('views');
-    app.set('view options', { layout: null });
+    app.set('view options', { layout: 'layout' });
 
     app.use (function(req, res, next) {
         var data='';
@@ -59,12 +60,15 @@ function Gviz( args ) {
    */
   function initRoutes() {
 
+    /** index **/
+    app.get('/', function(request, response) {
+      response.render('index');
+    });
     /** git log **/
     app.get('/log', function(request, response) {
       git.log(function(data) {
-        var json = '{"commits": [' + data.replace(/\n/g, ',') + ']}';
-        response.json( JSON.parse(json) );
-        response.end();
+        var json = '{"commits": {' + data.replace(/\n/g, ',') + '}}';
+        response.render('log', JSON.parse(json));
       });
     });
 

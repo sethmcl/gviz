@@ -1,0 +1,13 @@
+ol
+  each data, hash in commits
+    li
+      h3= hash
+      dl
+        each val, key in data
+          dd= key
+          dt= val
+script
+  window.onload = function (){
+    var gitData = !{JSON.stringify(commits)};
+    gogoGlobalFunction(gitData);
+  };

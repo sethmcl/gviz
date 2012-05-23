@@ -8,15 +8,14 @@ function Git( root ) {
   function log(cb) {
     cmd(cb, 'git log',
         '--pretty=format:\'',
-        '{',
-        '"hash":'       + '"%H",',
-        '"parentHash":' + '"%P",',
-        '"author":'     + '"%an",',
-        '"date":'       + '"%at",',
-        '"branch":'     + '"%d",',
-        '"subject":'    + '"%s",',
-        '"body":'       + '"%b",',
-        '"message":'    + '"%s %b"',
+        '"%H":{',
+          '"parentHash":' + '"%P",',
+          '"author":'     + '"%an",',
+          '"date":'       + '"%at",',
+          '"branch":'     + '"%d",',
+          '"subject":'    + '"%s",',
+          '"body":'       + '"%b",',
+          '"message":'    + '"%s %b"',
         '}\''
     );
   }
