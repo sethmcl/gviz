@@ -3,3 +3,12 @@ body{
   background: #333;
   color: #DDD;
 }
+#callout-container {
+  display:none;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #999;
+  background: rgba(0, 0, 0, 0.8);
+  color: #999;
+}

@@ -10,58 +10,7 @@ var gogoGlobalFunction = function(data){
     commitDragAttr: {fill: "hsb(0, 1, 1)", stroke: "none", opacity: .25},
     commitOverAttr: {fill: "hsb(0, 1, 1)", stroke: "none", opacity: .5},
   },
-  //cache of commits
-  // commits = R.set(),
-  //cache of branches
-  // branches = R.set(),
-  //cache of edges
-  // edges = R.set();
-
-  /*
-  Commit = (function (){
-    var commitCache = {}, branchCounter = 0;
-    function _getFromCache(c, b){
-      var position = {X:0, Y:0}, thisBranch = commitCache[b];
-      if (thisBranch && thisBranch.commits){
-        position.X = (thisBranch.commits.indexOf(c) > -1)? thisBranch.commits.indexOf(c): thisBranch.commits.push(c); 
-        position.Y = thisBranch.index;
-      }else{
-        thisBranch = commitCache[b] = {commits:[], index: branchCounter};
-        branchCounter+=1;
-        position.X = thisBranch.commits.push(c);
-        position.Y = thisBranch.index;
-      }
-      return position;
-    }
-    this.addCommit = function(commitData){
-      var parentXOffset = 0; // in case we are not looking at the full tree
-      var branchName = commitData.branch;
-      branchName = (branchName === '')? 'master' : branchName.replace(' (', '').replace('HEAD, ', '').replace(/\)$/,'');
-      var commitName = commitData.hash;
-      var commitPosition = _getFromCache(commitName, branchName);
-
-      //get parent
-      var parentHash = commitData.parentHash; //.split("  ");
-      if (parentHash.length === 1 &&  false){
-        parentXOffset = 2;
-      }
-      
-      y = config.gridY * commitPosition.Y;
-      x = config.gridX * commitPosition.X + parentXOffset;
-
-      this.node = new Node(x, y, 'commit', commitData);
-      this.branch = branchName; 
-      this.name = commitName;
-      this.parentName = parentHash;
-      this.parentCommits = [];
-      //TODO:  this should be a loop and  branchName is the parentHash's branch 
-      this.parentCommits.push(_getFromCache(parentHash, branchName));
-      return this;
-    };
-    return this 
-  })(),
-
-  */
+  calloutContainer = document.getElementById('callout-container');
   Commit = (function (){
     var commitCache = {}, 
         branchIndex = [], /* branch names as lookup*/
@@ -70,7 +19,7 @@ var gogoGlobalFunction = function(data){
       var cleanName = '', temp;
         if (dirtyName === ''){
           cleanName = 'master';
-        }else{  ///crazy regex here
+        }else{ 
           temp = dirtyName.split(",");
           temp = temp[temp.length - 1].replace(/^ */,'').replace(/\)$/,'');
           cleanName = temp;
@@ -175,7 +124,15 @@ var gogoGlobalFunction = function(data){
     function onNodeOver(){
     };
     p = paper.rect(x, y, config.commitWidth, config.commitHeight, config.commitRadius).attr(config.commitBasicAttr);
-    p.drag(onNodeMove, onNodeStartDrag, onNodeEndDrag).data(dataKey, dataVal).click(function(){console.log(this.data(dataKey))});
+    p.drag(onNodeMove, onNodeStartDrag, onNodeEndDrag).data(dataKey, dataVal).mouseover(function(){
+      var commitTitle, commitDate, nodeData = this.data(dataKey);
+      commitTitle = document.querySelector('.title', calloutContainer);
+      commitDate = document.querySelector('.date', calloutContainer);
+      commitTitle.innerHTML = nodeData.author + ' added \'' + nodeData.message+'\'';
+      commitDate.innerHTML = prettyDate ? prettyDate(nodeData.date): nodeData.date;
+      calloutContainer.style.display = 'block';
+
+    });
   },
 
   GitViz = function(commitData, onfig){

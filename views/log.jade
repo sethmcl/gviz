@@ -6,6 +6,9 @@ ol
         each val, key in data
           dd= key
           dt= val
+div#callout-container
+  h2.title
+  p.date
 script
   window.onload = function (){
     var gitData = !{JSON.stringify(commits)};
