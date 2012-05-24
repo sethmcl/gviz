@@ -12,6 +12,19 @@ var gogoGlobalFunction = function(data){
   },
   calloutContainer = document.getElementById('callout-container');
   Commit = (function (){
+    /*
+     * example commit cache
+     * commits= 
+     *  {
+     *    hashKey: {node: Node, edges: [e1, e2], branch: branchName, parentNodes = [hash1, hash2], index: [0,0]}
+     *  }
+     *  example edge
+     *  edges =
+     *  {
+     *    e1: {parentNode: p, childNode : c, edge: e1}
+     *    
+     *  }
+     */
     var commitCache = {}, 
         branchIndex = [], /* branch names as lookup*/
         commitsOnBranchCounter = {};  /*numberOf Commits using key of branchName*/
